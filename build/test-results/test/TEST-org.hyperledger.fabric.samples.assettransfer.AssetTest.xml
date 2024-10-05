@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.hyperledger.fabric.samples.assettransfer.AssetTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-10-04T11:40:38" hostname="ip-172-31-33-198" time="0.498">
+<testsuite name="org.hyperledger.fabric.samples.assettransfer.AssetTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-10-05T08:45:33" hostname="IndianRenterss-MacBook-Pro.local" time="0.069">
   <properties/>
-  <testcase name="toStringIdentifiesAsset()" classname="org.hyperledger.fabric.samples.assettransfer.AssetTest" time="0.498"/>
+  <testcase name="toStringIdentifiesAsset()" classname="org.hyperledger.fabric.samples.assettransfer.AssetTest" time="0.069"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

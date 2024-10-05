@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <checkstyle version="8.21">
-<file name="/home/ubuntu/hyperledger/fabric-samples/asset-transfer-basic/chaincode-java/src/test/java/org/hyperledger/fabric/samples/assettransfer/AssetTest.java">
+<file name="/Users/indianrenters/Desktop/office_projects/bitbucket/chain-code-java/src/test/java/org/hyperledger/fabric/samples/assettransfer/AssetTransferTest.java">
 </file>
-<file name="/home/ubuntu/hyperledger/fabric-samples/asset-transfer-basic/chaincode-java/src/test/java/org/hyperledger/fabric/samples/assettransfer/AssetTransferTest.java">
+<file name="/Users/indianrenters/Desktop/office_projects/bitbucket/chain-code-java/src/test/java/org/hyperledger/fabric/samples/assettransfer/AssetTest.java">
 </file>
 </checkstyle>

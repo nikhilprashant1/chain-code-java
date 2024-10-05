@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.hyperledger.fabric.samples.assettransfer.AssetTransferTest$DeleteAssetTransaction" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-10-04T11:40:45" hostname="ip-172-31-33-198" time="0.018">
+<testsuite name="org.hyperledger.fabric.samples.assettransfer.AssetTransferTest$DeleteAssetTransaction" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-10-05T08:45:34" hostname="IndianRenterss-MacBook-Pro.local" time="0.001">
   <properties/>
-  <testcase name="whenAssetDoesNotExist()" classname="org.hyperledger.fabric.samples.assettransfer.AssetTransferTest$DeleteAssetTransaction" time="0.018"/>
+  <testcase name="whenAssetDoesNotExist()" classname="org.hyperledger.fabric.samples.assettransfer.AssetTransferTest$DeleteAssetTransaction" time="0.001"/>
   <system-out><![CDATA[Asset asset1 does not exist
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>

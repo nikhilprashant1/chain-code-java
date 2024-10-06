@@ -19,6 +19,10 @@ public class AssetsKafkaPublisher {
 
     public void publish( String message)  {
         log.info("Sending message to topic : " + assetTopic +" Data is " + message);
-        assetsKafkaTemplate.send(assetTopic, message);
+        assetsKafkaTemplate.send(assetTopic, message)
+                .addCallback(
+                        result -> log.info("Message sent successfully to topic: {} with offset: {}", assetTopic, result.getRecordMetadata().offset()),
+                        ex -> log.error("Failed to send message to topic: {} due to: {}", assetTopic, ex.getMessage())
+                );
     }
 }

@@ -16,6 +16,7 @@ import org.hyperledger.fabric.contract.annotation.Default;
 import org.hyperledger.fabric.contract.annotation.Info;
 import org.hyperledger.fabric.contract.annotation.License;
 import org.hyperledger.fabric.contract.annotation.Transaction;
+import org.hyperledger.fabric.samples.assettransfer.service.AssetsKafkaPublisher;
 import org.hyperledger.fabric.shim.ChaincodeException;
 import org.hyperledger.fabric.shim.ChaincodeStub;
 import org.hyperledger.fabric.shim.ledger.KeyValue;
@@ -23,6 +24,7 @@ import org.hyperledger.fabric.shim.ledger.QueryResultsIterator;
 import org.hyperledger.fabric.shim.ledger.KeyModification;
 
 import com.owlike.genson.Genson;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Contract(
         name = "basic",
@@ -46,6 +48,11 @@ public final class AssetTransfer implements ContractInterface {
         ASSET_NOT_FOUND,
         ASSET_ALREADY_EXISTS
     }
+
+    @Autowired
+    private AssetsKafkaPublisher assetsKafkaPublisher;
+
+
 
     /**
      * Creates some initial assets on the ledger.
@@ -234,6 +241,7 @@ public final class AssetTransfer implements ContractInterface {
         }
 
         final String response = genson.serialize(queryResults);
+        assetsKafkaPublisher.publish(response);
 
         return response;
     }

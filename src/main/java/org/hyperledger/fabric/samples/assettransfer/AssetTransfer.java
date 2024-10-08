@@ -49,8 +49,8 @@ public final class AssetTransfer implements ContractInterface {
         ASSET_ALREADY_EXISTS
     }
 
-    @Autowired
-    private AssetsKafkaPublisher assetsKafkaPublisher;
+//    @Autowired
+//    private AssetsKafkaPublisher assetsKafkaPublisher;
 
 
 
@@ -241,7 +241,7 @@ public final class AssetTransfer implements ContractInterface {
         }
 
         final String response = genson.serialize(queryResults);
-        assetsKafkaPublisher.publish(response);
+//        assetsKafkaPublisher.publish(response);
 
         return response;
     }

@@ -1,4 +1,9 @@
+server:
+  port: 8080
+
 spring:
+  application:
+    name: asset-transfer-api
   kafka:
     bootstrap-servers: localhost:9092
     streams:

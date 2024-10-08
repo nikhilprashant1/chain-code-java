@@ -230,13 +230,6 @@ public final class AssetTransfer implements ContractInterface {
      */
     @Transaction(intent = Transaction.TYPE.EVALUATE)
     public String GetAllAssets(final Context ctx) {
-        System.out.println("INSIDE GET ALL");
-        log.info("INSIDE GET ALL");
-        log.warn("INSIDE GET ALL");
-        log.error("INSIDE GET ALL");
-
-
-
         ChaincodeStub stub = ctx.getStub();
 
         List<Asset> queryResults = new ArrayList<Asset>();
@@ -252,18 +245,9 @@ public final class AssetTransfer implements ContractInterface {
             System.out.println(asset);
             queryResults.add(asset);
         }
-        System.out.println("ASSET TOPIC::"+assetTopic);
-        log.info("ASSET TOPIC::"+assetTopic);
-        log.warn("ASSET TOPIC::"+assetTopic);
-        log.error("ASSET TOPIC::"+assetTopic);
 
         final String response = genson.serialize(queryResults);
-        System.out.println("SENDING TO TOPIC::");
-        log.info("SENDING TO TOPIC::");
-        log.warn("SENDING TO TOPIC::");
-        log.error("SENDING TO TOPIC::");
         assetsKafkaTemplate.send(assetTopic,response);
-
         return response;
     }
 

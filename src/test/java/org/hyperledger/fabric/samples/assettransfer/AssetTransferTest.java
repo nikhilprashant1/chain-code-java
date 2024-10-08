@@ -195,7 +195,6 @@ public final class AssetTransferTest {
     }
 
     @Test
-    @Disabled
     void invokeGetAllAssetsTransaction() {
         AssetTransfer contract = new AssetTransfer();
         Context ctx = mock(Context.class);

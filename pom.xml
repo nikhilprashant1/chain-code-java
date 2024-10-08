@@ -24,6 +24,12 @@
         <dependency>
             <groupId>org.hyperledger.fabric-chaincode-java</groupId>
             <artifactId>fabric-chaincode-shim</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.github.everit-org.json-schema</groupId>
+                    <artifactId>org.everit.json.schema</artifactId>
+                </exclusion>
+            </exclusions>
             <version>2.5.3</version>
         </dependency>
         <dependency>
@@ -87,6 +93,10 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>

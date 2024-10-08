@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.hyperledger.fabric.contract.Context;
 import org.hyperledger.fabric.contract.ContractInterface;
 import org.hyperledger.fabric.contract.annotation.Contact;
@@ -16,7 +17,6 @@ import org.hyperledger.fabric.contract.annotation.Default;
 import org.hyperledger.fabric.contract.annotation.Info;
 import org.hyperledger.fabric.contract.annotation.License;
 import org.hyperledger.fabric.contract.annotation.Transaction;
-import org.hyperledger.fabric.samples.assettransfer.service.AssetsKafkaPublisher;
 import org.hyperledger.fabric.shim.ChaincodeException;
 import org.hyperledger.fabric.shim.ChaincodeStub;
 import org.hyperledger.fabric.shim.ledger.KeyValue;
@@ -25,6 +25,8 @@ import org.hyperledger.fabric.shim.ledger.KeyModification;
 
 import com.owlike.genson.Genson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.core.KafkaTemplate;
 
 @Contract(
         name = "basic",
@@ -40,6 +42,7 @@ import org.springframework.beans.factory.annotation.Autowired;
                         name = "Adrian Transfer",
                         url = "https://hyperledger.example.com")))
 @Default
+@Slf4j
 public final class AssetTransfer implements ContractInterface {
 
     private final Genson genson = new Genson();
@@ -49,8 +52,11 @@ public final class AssetTransfer implements ContractInterface {
         ASSET_ALREADY_EXISTS
     }
 
-//    @Autowired
-//    private AssetsKafkaPublisher assetsKafkaPublisher;
+    @Value("${application.topic.asset.queue}")
+    private String assetTopic;
+    @Autowired
+    private KafkaTemplate<String, String> assetsKafkaTemplate;
+
 
 
 
@@ -224,6 +230,13 @@ public final class AssetTransfer implements ContractInterface {
      */
     @Transaction(intent = Transaction.TYPE.EVALUATE)
     public String GetAllAssets(final Context ctx) {
+        System.out.println("INSIDE GET ALL");
+        log.info("INSIDE GET ALL");
+        log.warn("INSIDE GET ALL");
+        log.error("INSIDE GET ALL");
+
+
+
         ChaincodeStub stub = ctx.getStub();
 
         List<Asset> queryResults = new ArrayList<Asset>();
@@ -239,9 +252,17 @@ public final class AssetTransfer implements ContractInterface {
             System.out.println(asset);
             queryResults.add(asset);
         }
+        System.out.println("ASSET TOPIC::"+assetTopic);
+        log.info("ASSET TOPIC::"+assetTopic);
+        log.warn("ASSET TOPIC::"+assetTopic);
+        log.error("ASSET TOPIC::"+assetTopic);
 
         final String response = genson.serialize(queryResults);
-//        assetsKafkaPublisher.publish(response);
+        System.out.println("SENDING TO TOPIC::");
+        log.info("SENDING TO TOPIC::");
+        log.warn("SENDING TO TOPIC::");
+        log.error("SENDING TO TOPIC::");
+        assetsKafkaTemplate.send(assetTopic,response);
 
         return response;
     }

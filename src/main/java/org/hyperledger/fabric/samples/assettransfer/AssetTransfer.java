@@ -24,9 +24,9 @@ import org.hyperledger.fabric.shim.ledger.QueryResultsIterator;
 import org.hyperledger.fabric.shim.ledger.KeyModification;
 
 import com.owlike.genson.Genson;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.kafka.core.KafkaTemplate;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.beans.factory.annotation.Value;
+//import org.springframework.kafka.core.KafkaTemplate;
 
 @Contract(
         name = "basic",
@@ -52,10 +52,10 @@ public final class AssetTransfer implements ContractInterface {
         ASSET_ALREADY_EXISTS
     }
 
-    @Value("${application.topic.asset.queue}")
-    private String assetTopic;
-    @Autowired
-    private KafkaTemplate<String, String> assetsKafkaTemplate;
+//    @Value("${application.topic.asset.queue}")
+//    private String assetTopic;
+//    @Autowired
+//    private KafkaTemplate<String, String> assetsKafkaTemplate;
 
 
 
@@ -247,7 +247,7 @@ public final class AssetTransfer implements ContractInterface {
         }
 
         final String response = genson.serialize(queryResults);
-        assetsKafkaTemplate.send(assetTopic,response);
+//        assetsKafkaTemplate.send(assetTopic,response);
         return response;
     }
 

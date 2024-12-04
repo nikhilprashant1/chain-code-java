@@ -65,7 +65,7 @@ public final class AssetTransferTest {
             assetList = new ArrayList<KeyValue>();
 
             assetList.add(new MockKeyValue("asset1",
-                    "{ \"assetID\": \"asset1\", \"color\": \"blue\", \"size\": 5, \"owner\": \"Tomoko\", \"appraisedValue\": 300 }"));
+                    "{ \"assetID\": \"asset1\", \"color\": \"blue\", \"size\": 5, \"owner\": \"Tomoko Japan\", \"appraisedValue\": 300 }"));
             assetList.add(new MockKeyValue("asset2",
                     "{ \"assetID\": \"asset2\", \"color\": \"red\", \"size\": 5,\"owner\": \"Brad\", \"appraisedValue\": 400 }"));
             assetList.add(new MockKeyValue("asset3",
@@ -116,11 +116,11 @@ public final class AssetTransferTest {
             ChaincodeStub stub = mock(ChaincodeStub.class);
             when(ctx.getStub()).thenReturn(stub);
             when(stub.getStringState("asset1"))
-                    .thenReturn("{ \"assetID\": \"asset1\", \"color\": \"blue\", \"size\": 5, \"owner\": \"Tomoko\", \"appraisedValue\": 300 }");
+                    .thenReturn("{ \"assetID\": \"asset1\", \"color\": \"blue\", \"size\": 5, \"owner\": \"Tomoko Japan\", \"appraisedValue\": 300 }");
 
             Asset asset = contract.ReadAsset(ctx, "asset1");
 
-            assertThat(asset).isEqualTo(new Asset("asset1", "blue", 5, "Tomoko", 300));
+            assertThat(asset).isEqualTo(new Asset("asset1", "blue", 5, "Tomoko Japan", 300, 1));
         }
 
         @Test
@@ -151,11 +151,11 @@ public final class AssetTransferTest {
         contract.InitLedger(ctx);
 
         InOrder inOrder = inOrder(stub);
-        inOrder.verify(stub).putStringState("asset1", "{\"appraisedValue\":300,\"assetID\":\"asset1\",\"color\":\"blue\",\"owner\":\"Tomoko\",\"size\":5}");
-        inOrder.verify(stub).putStringState("asset2", "{\"appraisedValue\":400,\"assetID\":\"asset2\",\"color\":\"red\",\"owner\":\"Brad\",\"size\":5}");
-        inOrder.verify(stub).putStringState("asset3", "{\"appraisedValue\":500,\"assetID\":\"asset3\",\"color\":\"green\",\"owner\":\"Jin Soo\",\"size\":10}");
-        inOrder.verify(stub).putStringState("asset4", "{\"appraisedValue\":600,\"assetID\":\"asset4\",\"color\":\"yellow\",\"owner\":\"Max\",\"size\":10}");
-        inOrder.verify(stub).putStringState("asset5", "{\"appraisedValue\":700,\"assetID\":\"asset5\",\"color\":\"black\",\"owner\":\"Adrian\",\"size\":15}");
+        inOrder.verify(stub).putStringState("asset1", "{\"appraisedValue\":300,\"assetID\":\"asset1\",\"color\":\"blue\",\"owner\":\"Tomoko Japan\",\"size\":5,\"dataRecord\":1}");
+        inOrder.verify(stub).putStringState("asset2", "{\"appraisedValue\":400,\"assetID\":\"asset2\",\"color\":\"red\",\"owner\":\"Brad\",\"size\":5,\"dataRecord\":1}");
+        inOrder.verify(stub).putStringState("asset3", "{\"appraisedValue\":500,\"assetID\":\"asset3\",\"color\":\"green\",\"owner\":\"Jin Soo\",\"size\":10,\"dataRecord\":1}");
+        inOrder.verify(stub).putStringState("asset4", "{\"appraisedValue\":600,\"assetID\":\"asset4\",\"color\":\"yellow\",\"owner\":\"Max\",\"size\":10,\"dataRecord\":1}");
+        inOrder.verify(stub).putStringState("asset5", "{\"appraisedValue\":700,\"assetID\":\"asset5\",\"color\":\"black\",\"owner\":\"Adrian\",\"size\":15,\"dataRecord\":1}");
 
     }
 
@@ -169,10 +169,10 @@ public final class AssetTransferTest {
             ChaincodeStub stub = mock(ChaincodeStub.class);
             when(ctx.getStub()).thenReturn(stub);
             when(stub.getStringState("asset1"))
-                    .thenReturn("{ \"assetID\": \"asset1\", \"color\": \"blue\", \"size\": 5, \"owner\": \"Tomoko\", \"appraisedValue\": 300 }");
+                    .thenReturn("{ \"assetID\": \"asset1\", \"color\": \"blue\", \"size\": 5, \"owner\": \"Tomoko Japan\", \"appraisedValue\": 300, \"dataRecord\": 1}");
 
             Throwable thrown = catchThrowable(() -> {
-                contract.CreateAsset(ctx, "asset1", "blue", 45, "Siobhán", 60);
+                contract.CreateAsset(ctx, "asset1", "blue", 45, "Siobhán", 60, 1);
             });
 
             assertThat(thrown).isInstanceOf(ChaincodeException.class).hasNoCause()
@@ -188,9 +188,9 @@ public final class AssetTransferTest {
             when(ctx.getStub()).thenReturn(stub);
             when(stub.getStringState("asset1")).thenReturn("");
 
-            Asset asset = contract.CreateAsset(ctx, "asset1", "blue", 45, "Siobhán", 60);
+            Asset asset = contract.CreateAsset(ctx, "asset1", "blue", 45, "Siobhán", 60, 1);
 
-            assertThat(asset).isEqualTo(new Asset("asset1", "blue", 45, "Siobhán", 60));
+            assertThat(asset).isEqualTo(new Asset("asset1", "blue", 45, "Siobhán", 60, 1));
         }
     }
 
@@ -204,12 +204,12 @@ public final class AssetTransferTest {
 
         String assets = contract.GetAllAssets(ctx);
 
-        assertThat(assets).isEqualTo("[{\"appraisedValue\":300,\"assetID\":\"asset1\",\"color\":\"blue\",\"owner\":\"Tomoko\",\"size\":5},"
-                + "{\"appraisedValue\":400,\"assetID\":\"asset2\",\"color\":\"red\",\"owner\":\"Brad\",\"size\":5},"
-                + "{\"appraisedValue\":500,\"assetID\":\"asset3\",\"color\":\"green\",\"owner\":\"Jin Soo\",\"size\":10},"
-                + "{\"appraisedValue\":600,\"assetID\":\"asset4\",\"color\":\"yellow\",\"owner\":\"Max\",\"size\":10},"
-                + "{\"appraisedValue\":700,\"assetID\":\"asset5\",\"color\":\"black\",\"owner\":\"Adrian\",\"size\":15},"
-                + "{\"appraisedValue\":800,\"assetID\":\"asset6\",\"color\":\"white\",\"owner\":\"Michel\",\"size\":15}]");
+        assertThat(assets).isEqualTo("[{\"appraisedValue\":300,\"assetID\":\"asset1\",\"color\":\"blue\",\"owner\":\"Tomoko Japan\",\"size\":5,\"dataRecord\":1},"
+                + "{\"appraisedValue\":400,\"assetID\":\"asset2\",\"color\":\"red\",\"owner\":\"Brad\",\"size\":5,\"dataRecord\":1},"
+                + "{\"appraisedValue\":500,\"assetID\":\"asset3\",\"color\":\"green\",\"owner\":\"Jin Soo\",\"size\":10,\"dataRecord\":1},"
+                + "{\"appraisedValue\":600,\"assetID\":\"asset4\",\"color\":\"yellow\",\"owner\":\"Max\",\"size\":10,\"dataRecord\":1},"
+                + "{\"appraisedValue\":700,\"assetID\":\"asset5\",\"color\":\"black\",\"owner\":\"Adrian\",\"size\":15,\"dataRecord\":1},"
+                + "{\"appraisedValue\":800,\"assetID\":\"asset6\",\"color\":\"white\",\"owner\":\"Michel\",\"size\":15,\"dataRecord\":1}]");
 
     }
 
@@ -223,11 +223,11 @@ public final class AssetTransferTest {
             ChaincodeStub stub = mock(ChaincodeStub.class);
             when(ctx.getStub()).thenReturn(stub);
             when(stub.getStringState("asset1"))
-                    .thenReturn("{ \"assetID\": \"asset1\", \"color\": \"blue\", \"size\": 5, \"owner\": \"Tomoko\", \"appraisedValue\": 300 }");
+                    .thenReturn("{ \"assetID\": \"asset1\", \"color\": \"blue\", \"size\": 5, \"owner\": \"Tomoko Japan\", \"appraisedValue\": 300 }");
 
             String oldOwner = contract.TransferAsset(ctx, "asset1", "Dr Evil");
 
-            assertThat(oldOwner).isEqualTo("Tomoko");
+            assertThat(oldOwner).isEqualTo("Tomoko Japan");
         }
 
         @Test
@@ -260,9 +260,9 @@ public final class AssetTransferTest {
             when(stub.getStringState("asset1"))
                     .thenReturn("{ \"assetID\": \"asset1\", \"color\": \"blue\", \"size\": 45, \"owner\": \"Arturo\", \"appraisedValue\": 60 }");
 
-            Asset asset = contract.UpdateAsset(ctx, "asset1", "pink", 45, "Arturo", 600);
+            Asset asset = contract.UpdateAsset(ctx, "asset1", "pink", 45, "Arturo", 600, 1);
 
-            assertThat(asset).isEqualTo(new Asset("asset1", "pink", 45, "Arturo", 600));
+            assertThat(asset).isEqualTo(new Asset("asset1", "pink", 45, "Arturo", 600, 1));
         }
 
         @Test

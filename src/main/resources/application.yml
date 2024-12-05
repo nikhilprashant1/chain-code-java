@@ -1,23 +1,2 @@
 #server:
 #  port: 8080
-
-spring:
-#  application:
-#    name: asset-transfer-api
-  kafka:
-    bootstrap-servers: localhost:9092
-    streams:
-      application-id: stream-app
-      default:
-        key:
-          serde: org.apache.kafka.common.serialization.Serdes$StringSerde
-        value:
-          serde: org.apache.kafka.common.serialization.Serdes$StringSerde
-
-
-application:
-  topic:
-    asset:
-      queue: "asset"
-    central-kafka-stream:
-      queue: "central"
